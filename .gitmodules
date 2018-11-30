@@ -1,0 +1,3 @@
+[submodule "bashtest"]
+	path = bashtest
+	url = git@github.com:shawnrushefsky/bashtest.git
