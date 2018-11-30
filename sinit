@@ -10,7 +10,7 @@ git init
 
 touch README.md
 echo "# $PROJECT_NAME
-A description of your project
+A description of \`$PROJECT_NAME\`
 " > README.md
 
 touch CHANGELOG.md
@@ -24,15 +24,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The entirety of $PROJECT_NAME
 " > CHANGELOG.md
 
+mkdir src
+mkdir test
+
 if [ $STACK = node ];
 then
     echo "Creating a Node.js Project..."
     npm init -y
-    npm install --save-dev mocha chai eslint
+    npm install --save-dev mocha chai eslint nyc
+
+    npm install -g json
+
+    json -I -f package.json -e "
+    this.scripts.test='mocha --recursive';
+    this.scripts.coverage='nyc mocha --recursive';
+    this.license='UNLICENSED';
+    this.version='0.0.1';
+    this.author='Shawn Rushefsky';
+    this.main='src/index.js'"
+
+    cat package.json
 
     touch .eslintrc.js
     curl https://raw.githubusercontent.com/shawnrushefsky/sinit/master/resources/.eslintrc.js > .eslintrc.js
 
     touch .gitignore
     curl https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore > .gitignore
+
+    touch src/index.js
+
+    mkdir .circleci
+    touch .circleci/config.yml
+    curl https://raw.githubusercontent.com/shawnrushefsky/sinit/master/resources/circle-node.yml > .circleci/config.yml
 fi
