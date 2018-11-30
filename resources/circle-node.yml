@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:$(node -v)-stretch
+      - image: circleci/node:$NODE_VERSION-stretch
 
     steps:
       - checkout

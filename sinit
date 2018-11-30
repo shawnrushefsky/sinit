@@ -38,6 +38,7 @@ function yaml_sub() {
 if [ $STACK = node ];
 then
     echo "Creating a Node.js Project..."
+    export NODE_VERSION=$(NV=$(node -v); echo ${NV:1})
     node -v > .nvmrc
     npm init -y
     npm install --save-dev mocha chai eslint nyc
@@ -50,7 +51,8 @@ then
     this.license='UNLICENSED';
     this.version='0.0.1';
     this.author='Shawn Rushefsky';
-    this.main='src/index.js';"
+    this.main='src/index.js';
+    this.engines.node='$NODE_VERSION'"
 
     cat package.json
 
@@ -61,6 +63,6 @@ then
     touch src/index.js
 
     mkdir .circleci
-    curl https://raw.githubusercontent.com/shawnrushefsky/sinit/master/resources/circle-node.yml > temp.yml
-    yaml_sub temp.yml > .circleci/config.yml
+    curl https://raw.githubusercontent.com/shawnrushefsky/sinit/master/resources/circle-node.yml > tmp
+    yaml_sub tmp > .circleci/config.yml
 fi
