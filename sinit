@@ -8,12 +8,10 @@ mkdir $PROJECT_NAME
 cd $PROJECT_NAME
 git init
 
-touch README.md
 echo "# $PROJECT_NAME
 A description of \`$PROJECT_NAME\`
 " > README.md
 
-touch CHANGELOG.md
 echo "# Changelog
 All notable changes to this project will be documented in this file.
 
@@ -27,9 +25,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 mkdir src
 mkdir test
 
+function yaml_sub() {
+    rm -f final.yml temp.yml  
+    ( echo "cat <<EOF >final.yml";
+    cat "$1";
+    echo "EOF";
+    ) >temp.yml
+    . temp.yml
+    cat final.yml
+}
+
 if [ $STACK = node ];
 then
     echo "Creating a Node.js Project..."
+    node -v > .nvmrc
     npm init -y
     npm install --save-dev mocha chai eslint nyc
 
@@ -41,19 +50,17 @@ then
     this.license='UNLICENSED';
     this.version='0.0.1';
     this.author='Shawn Rushefsky';
-    this.main='src/index.js'"
+    this.main='src/index.js';"
 
     cat package.json
 
-    touch .eslintrc.js
     curl https://raw.githubusercontent.com/shawnrushefsky/sinit/master/resources/.eslintrc.js > .eslintrc.js
 
-    touch .gitignore
     curl https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore > .gitignore
 
     touch src/index.js
 
     mkdir .circleci
-    touch .circleci/config.yml
-    curl https://raw.githubusercontent.com/shawnrushefsky/sinit/master/resources/circle-node.yml > .circleci/config.yml
+    curl https://raw.githubusercontent.com/shawnrushefsky/sinit/master/resources/circle-node.yml > temp.yml
+    yaml_sub temp.yml > .circleci/config.yml
 fi
