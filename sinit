@@ -26,13 +26,13 @@ mkdir src
 mkdir test
 
 function yaml_sub() {
-    rm -f final.yml temp.yml  
+    rm -f final.yml temp.yml
     ( echo "cat <<EOF >final.yml";
     cat "$1";
-    echo "EOF";
     ) >temp.yml
     . temp.yml
     cat final.yml
+    rm -f final.yml temp.yml  
 }
 
 if [ $STACK = node ];
@@ -52,7 +52,7 @@ then
     this.version='0.0.1';
     this.author='Shawn Rushefsky';
     this.main='src/index.js';
-    this.engines.node='$NODE_VERSION'"
+    this.engines={node:'$NODE_VERSION'}"
 
     cat package.json
 
@@ -65,4 +65,5 @@ then
     mkdir .circleci
     curl https://raw.githubusercontent.com/shawnrushefsky/sinit/master/resources/circle-node.yml > tmp
     yaml_sub tmp > .circleci/config.yml
+    rm -f tmp
 fi
