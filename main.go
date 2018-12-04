@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+
+	"./src/sinit"
 )
 
 func main() {
@@ -29,4 +31,6 @@ func main() {
 
 	fmt.Println("Name: " + projName)
 	fmt.Println("Stack: " + stack)
+
+	sinit.CreateProject(projName)
 }
