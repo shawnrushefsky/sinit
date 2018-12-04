@@ -22,6 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The entirety of $PROJECT_NAME
 " > CHANGELOG.md
 
+echo "# All files should be reviewed by $(git config user.name)
+* $(git config user.email)" > CODEOWNERS
+
 mkdir src
 mkdir test
 
