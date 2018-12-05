@@ -7,7 +7,10 @@ import (
 	"path"
 )
 
-type metaData struct {
+/*
+MetaData contains information about the project and its author
+*/
+type MetaData struct {
 	Name   string
 	Author string
 	Email  string
@@ -16,7 +19,7 @@ type metaData struct {
 /*
 CreateProject creates the directory for a project, and sets up universal boilerplate
 */
-func CreateProject(name string) {
+func CreateProject(name string) (absPath string, meta MetaData) {
 	// Get git user name and email
 	author, err := runCmd("git", "config", "user.name")
 	if err != nil {
@@ -27,14 +30,14 @@ func CreateProject(name string) {
 		log.Fatal(err)
 	}
 
-	meta := metaData{name, author, email}
+	meta = MetaData{name, author, email}
 
 	// Get an absolute path for the new project
 	dir, err := os.Getwd()
 	if err != nil {
 		log.Fatal(err)
 	}
-	absPath := path.Join(dir, name)
+	absPath = path.Join(dir, name)
 
 	// Create the new directory
 	fmt.Println("Making Directory")
@@ -67,4 +70,6 @@ func CreateProject(name string) {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	return
 }

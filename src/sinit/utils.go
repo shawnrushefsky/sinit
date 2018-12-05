@@ -10,11 +10,23 @@ import (
 )
 
 func runCmd(cmd string, args ...string) (output string, err error) {
+	dir, err := os.Getwd()
+	if err != nil {
+		return "", err
+	}
+	return runCmdFromDir(dir, cmd, args...)
+}
+
+func runCmdFromDir(dir string, cmd string, args ...string) (output string, err error) {
 	command := exec.Command(cmd, args...)
+	command.Dir = dir
 	var out bytes.Buffer
 	command.Stdout = &out
 	err = command.Run()
 	output = out.String()
+	if len(output) > 0 && output[len(output)-1] == '\n' {
+		output = output[:len(output)-1]
+	}
 	return
 }
 

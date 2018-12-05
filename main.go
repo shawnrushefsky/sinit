@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"strings"
 
 	"./src/sinit"
 )
@@ -29,8 +30,14 @@ func main() {
 
 	flag.Parse()
 
+	stack = strings.ToLower(stack)
+
 	fmt.Println("Name: " + projName)
 	fmt.Println("Stack: " + stack)
 
-	sinit.CreateProject(projName)
+	absPath, metaData := sinit.CreateProject(projName)
+
+	if stack == "node" {
+		sinit.InitNode(absPath, metaData)
+	}
 }
