@@ -1,0 +1,2 @@
+# All files should be reviewed by {{.Author}}
+* {{.Email}}

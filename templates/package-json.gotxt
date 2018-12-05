@@ -1,0 +1,25 @@
+{
+  "name": "{{.Name}}",
+  "version": "0.0.1",
+  "description": "A description of `{{.Name}}`",
+  "main": "src/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --recursive",
+    "coverage": "nyc mocha --recursive"
+  },
+  "keywords": [],
+  "author": "{{.Author}}",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "chai": "^{{.ChaiVersion}}",
+    "eslint": "^{{.ESLintVersion}}",
+    "mocha": "^{{.MochaVersion}}",
+    "nyc": "^{{.NYCVersion}}"
+  },
+  "engines": {
+    "node": "{{.NodeVersion}}"
+  }
+}
