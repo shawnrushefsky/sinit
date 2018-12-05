@@ -114,4 +114,10 @@ func InitNode(absPath string, metaData MetaData) {
 		log.Fatal(err)
 	}
 	ioutil.WriteFile(path.Join(absPath, ".gitignore"), body, 0666)
+
+	newFile, err := os.Create(path.Join(absPath, "src", "index.js"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	newFile.Close()
 }
