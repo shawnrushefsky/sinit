@@ -40,4 +40,6 @@ func main() {
 	if stack == "node" {
 		sinit.InitNode(absPath, metaData)
 	}
+
+	fmt.Printf("\nProject Created. Just type cd %v", projName)
 }

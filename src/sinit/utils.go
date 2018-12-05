@@ -2,6 +2,7 @@ package sinit
 
 import (
 	"bytes"
+	"io/ioutil"
 	"os"
 	"os/exec"
 	"path"
@@ -47,6 +48,20 @@ func createFileFromTemplate(templateFile string, ouputFilename string, data inte
 	}
 
 	err = tmpl.Execute(newFile, data)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func copy(source, destination string) error {
+	input, err := ioutil.ReadFile(source)
+	if err != nil {
+		return err
+	}
+
+	err = ioutil.WriteFile(destination, input, 0666)
 	if err != nil {
 		return err
 	}

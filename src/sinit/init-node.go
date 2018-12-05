@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"path"
+	"path/filepath"
 )
 
 type packageInfo struct {
@@ -28,6 +30,7 @@ func InitNode(absPath string, metaData MetaData) {
 	fmt.Println("Making Directories")
 	os.Mkdir(path.Join(absPath, "src"), 0777)
 	os.Mkdir(path.Join(absPath, "test"), 0777)
+	os.Mkdir(path.Join(absPath, ".circleci"), 0777)
 
 	// Get node version
 	nodev, err := runCmd("node", "-v")
@@ -73,10 +76,42 @@ func InitNode(absPath string, metaData MetaData) {
 	}
 
 	// Initiate the project
-	createFileFromTemplate("package-json.gotxt", path.Join(absPath, "package.json"), pInfo)
+	err = createFileFromTemplate("package-json.gotxt", path.Join(absPath, "package.json"), pInfo)
+	if err != nil {
+		log.Fatal(err)
+	}
 
+	fmt.Println("Installing dependencies")
 	_, err = runCmdFromDir(absPath, "npm", "install")
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	templateDir, err := filepath.Abs("templates")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = copy(path.Join(templateDir, ".eslintrc.js"), path.Join(absPath, ".eslintrc.js"))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Setting up CircleCI")
+	err = createFileFromTemplate("circle-node.gotxt", path.Join(absPath, ".circleci", "config.yml"), pInfo)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("Fetching .gitignore")
+	resp, err := http.Get("https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	ioutil.WriteFile(path.Join(absPath, ".gitignore"), body, 0666)
 }
