@@ -52,21 +52,21 @@ func CreateProject(name string) (absPath string, meta MetaData) {
 
 	// Create a readme
 	fmt.Println("Creating README")
-	err = createFileFromTemplate("readme.gotxt", path.Join(absPath, "README.md"), meta)
+	err = createFileFromTemplate("readme.md", path.Join(absPath, "README.md"), meta)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// Create a changelog
 	fmt.Println("Creating CHANGELOG")
-	err = createFileFromTemplate("changelog.gotxt", path.Join(absPath, "CHANGELOG.md"), meta)
+	err = createFileFromTemplate("changelog.md", path.Join(absPath, "CHANGELOG.md"), meta)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// Create a codeowners
 	fmt.Println("Creating CODEOWNERS")
-	err = createFileFromTemplate("codeowners.gotxt", path.Join(absPath, "CODEOWNERS"), meta)
+	err = createFileFromTemplate("codeowners", path.Join(absPath, "CODEOWNERS"), meta)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -76,10 +76,16 @@ func InitNode(absPath string, metaData MetaData) {
 	}
 
 	// Initiate the project
-	err = createFileFromTemplate("package-json.gotxt", path.Join(absPath, "package.json"), pInfo)
+	err = createFileFromTemplate("package.json", path.Join(absPath, "package.json"), pInfo)
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	newFile, err := os.Create(path.Join(absPath, "src", "index.js"))
+	if err != nil {
+		log.Fatal(err)
+	}
+	newFile.Close()
 
 	fmt.Println("Installing dependencies")
 	_, err = runCmdFromDir(absPath, "npm", "install")
@@ -98,7 +104,7 @@ func InitNode(absPath string, metaData MetaData) {
 	}
 
 	fmt.Println("Setting up CircleCI")
-	err = createFileFromTemplate("circle-node.gotxt", path.Join(absPath, ".circleci", "config.yml"), pInfo)
+	err = createFileFromTemplate("circle-node.yml", path.Join(absPath, ".circleci", "config.yml"), pInfo)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -115,9 +121,8 @@ func InitNode(absPath string, metaData MetaData) {
 	}
 	ioutil.WriteFile(path.Join(absPath, ".gitignore"), body, 0666)
 
-	newFile, err := os.Create(path.Join(absPath, "src", "index.js"))
+	err = createFileFromTemplate("compose-node.yml", path.Join(absPath, "docker-compose.yml"), pInfo)
 	if err != nil {
 		log.Fatal(err)
 	}
-	newFile.Close()
 }
