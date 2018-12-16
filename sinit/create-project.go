@@ -5,6 +5,8 @@ import (
 	"log"
 	"os"
 	"path"
+
+	"./templates"
 )
 
 /*
@@ -52,21 +54,21 @@ func CreateProject(name string) (absPath string, meta MetaData) {
 
 	// Create a readme
 	fmt.Println("Creating README")
-	err = createFileFromTemplate("readme.md", path.Join(absPath, "README.md"), meta)
+	err = createFileFromTemplate(templates.Readme(), path.Join(absPath, "README.md"), meta)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// Create a changelog
 	fmt.Println("Creating CHANGELOG")
-	err = createFileFromTemplate("changelog.md", path.Join(absPath, "CHANGELOG.md"), meta)
+	err = createFileFromTemplate(templates.Changelog(), path.Join(absPath, "CHANGELOG.md"), meta)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// Create a codeowners
 	fmt.Println("Creating CODEOWNERS")
-	err = createFileFromTemplate("codeowners", path.Join(absPath, "CODEOWNERS"), meta)
+	err = createFileFromTemplate(templates.Codeowners(), path.Join(absPath, "CODEOWNERS"), meta)
 	if err != nil {
 		log.Fatal(err)
 	}
