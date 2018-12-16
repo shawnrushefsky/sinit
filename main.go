@@ -61,15 +61,14 @@ func main() {
 	fmt.Println("Name: " + projName)
 	fmt.Println("Stack: " + stack)
 
-	// absPath, metaData := sinit.CreateProject(projName)
-	sinit.CreateProject(projName)
+	absPath, metaData := sinit.CreateProject(projName)
 
-	// switch stack {
-	// case "node":
-	// 	sinit.InitNode(absPath, metaData)
-	// case "hugo":
-	// 	sinit.InitHugo(absPath, theme, themeRepo, deploy, metaData)
-	// }
+	switch stack {
+	case "node":
+		sinit.InitNode(absPath, metaData)
+		// case "hugo":
+		// 	sinit.InitHugo(absPath, theme, themeRepo, deploy, metaData)
+	}
 
 	fmt.Printf("\nProject Created. Just type `cd %v`", projName)
 }

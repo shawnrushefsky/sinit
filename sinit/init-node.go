@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 	"path"
-	"path/filepath"
 
 	"./templates"
 )
@@ -95,12 +94,7 @@ func InitNode(absPath string, metaData MetaData) {
 		log.Fatal(err)
 	}
 
-	templateDir, err := filepath.Abs("templates")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = copy(path.Join(templateDir, ".eslintrc.js"), path.Join(absPath, ".eslintrc.js"))
+	err = ioutil.WriteFile(path.Join(absPath, ".eslintrc.js"), []byte(templates.ESLintRC), 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -123,7 +117,7 @@ func InitNode(absPath string, metaData MetaData) {
 	}
 	ioutil.WriteFile(path.Join(absPath, ".gitignore"), body, 0666)
 
-	err = createFileFromTemplate("compose-node.yml", path.Join(absPath, "docker-compose.yml"), pInfo)
+	err = createFileFromTemplate(templates.ComposeNode(), path.Join(absPath, "docker-compose.yml"), pInfo)
 	if err != nil {
 		log.Fatal(err)
 	}
