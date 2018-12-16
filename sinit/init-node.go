@@ -94,7 +94,7 @@ func InitNode(absPath string, metaData MetaData) {
 		log.Fatal(err)
 	}
 
-	err = ioutil.WriteFile(path.Join(absPath, ".eslintrc.js"), []byte(templates.ESLintRC), 0666)
+	err = ioutil.WriteFile(path.Join(absPath, ".eslintrc.js"), []byte(templates.ESLintRC()), 0666)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -2,10 +2,12 @@ package sinit
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"path"
-	"path/filepath"
+
+	"./templates"
 )
 
 /*
@@ -41,12 +43,7 @@ func InitHugo(absPath string, theme string, themeRepo string, deploy string, met
 	fmt.Println("Setting up CI Pipeline")
 	os.Mkdir(path.Join(absPath, ".circleci"), 0777)
 
-	templateDir, err := filepath.Abs("templates")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = copy(path.Join(templateDir, "circle-hugo.yml"), path.Join(absPath, ".circleci", "config.yml"))
+	err = ioutil.WriteFile(path.Join(absPath, ".eslintrc.js"), []byte(templates.CircleHugo()), 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
