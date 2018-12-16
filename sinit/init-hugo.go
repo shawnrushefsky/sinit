@@ -2,10 +2,12 @@ package sinit
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 	"os"
 	"path"
-	"path/filepath"
+
+	"./templates"
 )
 
 /*
@@ -41,12 +43,7 @@ func InitHugo(absPath string, theme string, themeRepo string, deploy string, met
 	fmt.Println("Setting up CI Pipeline")
 	os.Mkdir(path.Join(absPath, ".circleci"), 0777)
 
-	templateDir, err := filepath.Abs("templates")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = copy(path.Join(templateDir, "circle-hugo.yml"), path.Join(absPath, ".circleci", "config.yml"))
+	err = ioutil.WriteFile(path.Join(absPath, ".circleci", "config.yml"), []byte(templates.CircleHugo()), 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -58,7 +55,7 @@ func InitHugo(absPath string, theme string, themeRepo string, deploy string, met
 				Flags:       "--recursive",
 				PersistPath: "hugo/public",
 			}
-			err = appendTemplateToFile("circle-deploy-s3.yml", path.Join(absPath, ".circleci", "config.yml"), deployInfo)
+			err = appendTemplateToFile(templates.CircleDeployS3(), path.Join(absPath, ".circleci", "config.yml"), deployInfo)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -67,7 +64,7 @@ func InitHugo(absPath string, theme string, themeRepo string, deploy string, met
 				Flags:       "-r",
 				PersistPath: "hugo/public",
 			}
-			err = appendTemplateToFile("circle-deploy-gcs.yml", path.Join(absPath, ".circleci", "config.yml"), deployInfo)
+			err = appendTemplateToFile(templates.CircleDeployGCS(), path.Join(absPath, ".circleci", "config.yml"), deployInfo)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -75,7 +72,7 @@ func InitHugo(absPath string, theme string, themeRepo string, deploy string, met
 			deployInfo := DeployInfo{
 				PersistPath: "hugo",
 			}
-			err = appendTemplateToFile("circle-deploy-firebase.yml", path.Join(absPath, ".circleci", "config.yml"), deployInfo)
+			err = appendTemplateToFile(templates.CircleDeployFirebase(), path.Join(absPath, ".circleci", "config.yml"), deployInfo)
 			if err != nil {
 				log.Fatal(err)
 			}

@@ -1,4 +1,10 @@
-  
+package templates
+
+import "text/template"
+
+// CircleDeployFirebase returns the circle ci deploy job and workflow for deploying a site to Google Firebase
+func CircleDeployFirebase() (t *template.Template) {
+	const raw = `  
   deploy:
     docker:
       - image: google/cloud-sdk
@@ -29,4 +35,12 @@ workflows:
             - build
           filters:
             branches:
-              only: master
+              only: master`
+
+	t, err := template.New("circle-deploy-firebase.yml").Parse(raw)
+	if err != nil {
+		panic(err)
+	}
+
+	return
+}

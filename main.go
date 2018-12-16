@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"./src/sinit"
+	"./sinit"
 )
 
 func main() {
