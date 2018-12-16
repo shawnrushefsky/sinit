@@ -71,6 +71,19 @@ func InitHugo(absPath string, theme string, themeRepo string, deploy string, met
 			if err != nil {
 				log.Fatal(err)
 			}
+		case "firebase":
+			deployInfo := DeployInfo{
+				PersistPath: "hugo",
+			}
+			err = appendTemplateToFile("circle-deploy-firebase.yml", path.Join(absPath, ".circleci", "config.yml"), deployInfo)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			err = runInteractiveCmdFromDir(absPath, "firebase", "init")
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 
 	}

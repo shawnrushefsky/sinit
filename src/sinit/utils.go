@@ -40,6 +40,15 @@ func runCmdFromDir(dir string, cmd string, args ...string) (output string, err e
 	return
 }
 
+func runInteractiveCmdFromDir(dir string, cmd string, args ...string) error {
+	command := exec.Command(cmd, args...)
+	command.Dir = dir
+	command.Stdout = os.Stdout
+	command.Stdin = os.Stdin
+	command.Stderr = os.Stderr
+	return command.Run()
+}
+
 func createFileFromTemplate(templateFile string, ouputFilename string, data interface{}) error {
 	templateDir, err := filepath.Abs("templates")
 	if err != nil {
