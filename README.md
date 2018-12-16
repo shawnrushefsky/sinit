@@ -8,4 +8,8 @@ Usage of sinit:
     	The name of your new project (default "new-project")
   -s -stack string
     	The project stack you want to create. e.g. node (default "node")
+  -t -theme string
+    	The name of the theme you want to use (for static sites, etc.) (default "mediumish")
+  -u -theme-repo string
+    	The URL for the repo of the theme you want to use (for hugo) (default "https://github.com/lgaida/mediumish-gohugo-theme.git")
 ```
