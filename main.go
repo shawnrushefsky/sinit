@@ -66,8 +66,8 @@ func main() {
 	switch stack {
 	case "node":
 		sinit.InitNode(absPath, metaData)
-		// case "hugo":
-		// 	sinit.InitHugo(absPath, theme, themeRepo, deploy, metaData)
+	case "hugo":
+		sinit.InitHugo(absPath, theme, themeRepo, deploy, metaData)
 	}
 
 	fmt.Printf("\nProject Created. Just type `cd %v`", projName)

@@ -43,7 +43,7 @@ func InitHugo(absPath string, theme string, themeRepo string, deploy string, met
 	fmt.Println("Setting up CI Pipeline")
 	os.Mkdir(path.Join(absPath, ".circleci"), 0777)
 
-	err = ioutil.WriteFile(path.Join(absPath, ".eslintrc.js"), []byte(templates.CircleHugo()), 0666)
+	err = ioutil.WriteFile(path.Join(absPath, ".circleci", "config.yml"), []byte(templates.CircleHugo()), 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
