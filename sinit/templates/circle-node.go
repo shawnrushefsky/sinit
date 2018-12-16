@@ -2,7 +2,7 @@ package templates
 
 import "text/template"
 
-// CircleNode returns the readme template
+// CircleNode returns the circle ci job to run tests on a node project
 func CircleNode() (t *template.Template) {
 	const raw = `version: 2
 	jobs:

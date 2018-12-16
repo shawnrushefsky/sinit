@@ -2,7 +2,7 @@ package templates
 
 import "text/template"
 
-// ComposeNode returns the readme template
+// ComposeNode returns the Docker Compose file for a node project
 func ComposeNode() (t *template.Template) {
 	const raw = `version: '3'
 

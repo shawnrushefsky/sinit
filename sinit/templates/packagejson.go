@@ -2,7 +2,7 @@ package templates
 
 import "text/template"
 
-// PackageJSON returns the readme template
+// PackageJSON returns the package.json template
 func PackageJSON() (t *template.Template) {
 	const raw = `{
 		"name": "{{.Name}}",

@@ -6,8 +6,6 @@ import (
 	"log"
 	"os"
 	"os/exec"
-	"path"
-	"path/filepath"
 	"text/template"
 )
 
@@ -63,17 +61,7 @@ func createFileFromTemplate(tmpl *template.Template, ouputFilename string, data 
 	return nil
 }
 
-func appendTemplateToFile(templateFile string, outputFilename string, data interface{}) error {
-	templateDir, err := filepath.Abs("templates")
-	if err != nil {
-		return err
-	}
-
-	tmpl, err := template.New(templateFile).ParseFiles(path.Join(templateDir, templateFile))
-	if err != nil {
-		return err
-	}
-
+func appendTemplateToFile(tmpl *template.Template, outputFilename string, data interface{}) error {
 	f, err := os.OpenFile(outputFilename, os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatal(err)

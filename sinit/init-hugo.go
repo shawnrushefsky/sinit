@@ -55,7 +55,7 @@ func InitHugo(absPath string, theme string, themeRepo string, deploy string, met
 				Flags:       "--recursive",
 				PersistPath: "hugo/public",
 			}
-			err = appendTemplateToFile("circle-deploy-s3.yml", path.Join(absPath, ".circleci", "config.yml"), deployInfo)
+			err = appendTemplateToFile(templates.CircleDeployS3(), path.Join(absPath, ".circleci", "config.yml"), deployInfo)
 			if err != nil {
 				log.Fatal(err)
 			}

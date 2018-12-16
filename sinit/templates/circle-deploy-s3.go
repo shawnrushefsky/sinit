@@ -1,4 +1,10 @@
-  
+package templates
+
+import "text/template"
+
+// CircleDeployS3 returns the circle ci deploy job and workflow for pushing a build artifact to S3
+func CircleDeployS3() (t *template.Template) {
+	const raw = `  
   deploy:
     docker:
       - image: circleci/python:2.7-jessie
@@ -25,3 +31,12 @@ workflows:
           filters:
             branches:
               only: master
+`
+
+	t, err := template.New("circle-node.yml").Parse(raw)
+	if err != nil {
+		panic(err)
+	}
+
+	return
+}

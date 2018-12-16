@@ -2,7 +2,7 @@ package templates
 
 import "text/template"
 
-// Codeowners returns the readme template
+// Codeowners returns the CODEOWNERS template
 func Codeowners() (t *template.Template) {
 	const raw = `# All files should be reviewed by {{.Author}}
 	* {{.Email}}`

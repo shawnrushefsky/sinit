@@ -2,7 +2,7 @@ package templates
 
 import "text/template"
 
-// Changelog returns the readme template
+// Changelog returns the CHANGELOG.md template
 func Changelog() (t *template.Template) {
 	const raw = `# Changelog
 	All notable changes to this project will be documented in this file.
