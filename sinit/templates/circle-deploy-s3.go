@@ -33,7 +33,7 @@ workflows:
               only: master
 `
 
-	t, err := template.New("circle-node.yml").Parse(raw)
+	t, err := template.New("circle-deploy-s3.yml").Parse(raw)
 	if err != nil {
 		panic(err)
 	}

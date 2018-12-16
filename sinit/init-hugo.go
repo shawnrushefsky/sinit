@@ -64,7 +64,7 @@ func InitHugo(absPath string, theme string, themeRepo string, deploy string, met
 				Flags:       "-r",
 				PersistPath: "hugo/public",
 			}
-			err = appendTemplateToFile("circle-deploy-gcs.yml", path.Join(absPath, ".circleci", "config.yml"), deployInfo)
+			err = appendTemplateToFile(templates.CircleDeployGCS(), path.Join(absPath, ".circleci", "config.yml"), deployInfo)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -72,7 +72,7 @@ func InitHugo(absPath string, theme string, themeRepo string, deploy string, met
 			deployInfo := DeployInfo{
 				PersistPath: "hugo",
 			}
-			err = appendTemplateToFile("circle-deploy-firebase.yml", path.Join(absPath, ".circleci", "config.yml"), deployInfo)
+			err = appendTemplateToFile(templates.CircleDeployFirebase(), path.Join(absPath, ".circleci", "config.yml"), deployInfo)
 			if err != nil {
 				log.Fatal(err)
 			}
