@@ -14,6 +14,7 @@ func main() {
 		stack     string
 		theme     string
 		themeRepo string
+		deploy    string
 	)
 
 	const (
@@ -44,9 +45,18 @@ func main() {
 	flag.StringVar(&themeRepo, "theme-repo", themeRepoDefault, themeRepoUsage)
 	flag.StringVar(&themeRepo, "u", themeRepoDefault, themeRepoUsage+" (shorthand)")
 
+	const (
+		deployDefault = ""
+		deployUsage   = "The deployment target, e.g. s3"
+	)
+	flag.StringVar(&deploy, "deploy", deployDefault, deployUsage)
+	flag.StringVar(&deploy, "d", deployDefault, deployUsage+" (shorthand)")
+
 	flag.Parse()
 
 	stack = strings.ToLower(stack)
+	theme = strings.ToLower(theme)
+	deploy = strings.ToLower(deploy)
 
 	fmt.Println("Name: " + projName)
 	fmt.Println("Stack: " + stack)
@@ -57,7 +67,7 @@ func main() {
 	case "node":
 		sinit.InitNode(absPath, metaData)
 	case "hugo":
-		sinit.InitHugo(absPath, theme, themeRepo, metaData)
+		sinit.InitHugo(absPath, theme, themeRepo, deploy, metaData)
 	}
 
 	fmt.Printf("\nProject Created. Just type `cd %v`", projName)

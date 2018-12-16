@@ -3,12 +3,21 @@ package sinit
 import (
 	"bytes"
 	"io/ioutil"
+	"log"
 	"os"
 	"os/exec"
 	"path"
 	"path/filepath"
 	"text/template"
 )
+
+/*
+DeployInfo is a struct that is used when filling in deployment templates
+*/
+type DeployInfo struct {
+	Flags       string
+	PersistPath string
+}
 
 func runCmd(cmd string, args ...string) (output string, err error) {
 	dir, err := os.Getwd()
@@ -48,6 +57,30 @@ func createFileFromTemplate(templateFile string, ouputFilename string, data inte
 	}
 
 	err = tmpl.Execute(newFile, data)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func appendTemplateToFile(templateFile string, outputFilename string, data interface{}) error {
+	templateDir, err := filepath.Abs("templates")
+	if err != nil {
+		return err
+	}
+
+	tmpl, err := template.New(templateFile).ParseFiles(path.Join(templateDir, templateFile))
+	if err != nil {
+		return err
+	}
+
+	f, err := os.OpenFile(outputFilename, os.O_APPEND|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = tmpl.Execute(f, data)
 	if err != nil {
 		return err
 	}
