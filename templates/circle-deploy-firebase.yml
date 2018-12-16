@@ -1,0 +1,26 @@
+  
+  deploy:
+    docker:
+      - image: devillex/docker-firebase
+    working_directory: /tmp/workspace/{{.PersistPath}}
+    steps:
+      - attach_workspace:
+          # Must be absolute path or relative path from working_directory
+          at: /tmp/workspace
+
+      - run:
+          name: Deploy to firebase
+          command: firebase deploy --token=$FIREBASE_DEPLOY_TOKEN
+
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
