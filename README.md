@@ -29,6 +29,6 @@ This will create a new node project with mocha, chai, eslint, and nyc. It also e
 This creates a hugo static site, and installs a theme for you. It will automatically provide a circleci job to build the site and persist it to the workspace. You may optionally specify a deployment target.
 
 Currently supported deployment targets:
-- aws s3
-- gcs buckets
-- google firebase
+- `s3`
+- `gcs`
+- `firebase`
